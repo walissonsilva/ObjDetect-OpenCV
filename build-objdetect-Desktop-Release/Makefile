@@ -45,8 +45,10 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../objdetect/main.cpp 
-OBJECTS       = main.o
+SOURCES       = ../objdetect/main.cpp \
+		../objdetect/rs232.cpp 
+OBJECTS       = main.o \
+		rs232.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/shell-unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
@@ -261,7 +263,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/objdetect1.0.0 || mkdir -p .tmp/objdetect1.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/objdetect1.0.0/ && $(COPY_FILE) --parents ../objdetect/main.cpp .tmp/objdetect1.0.0/ && (cd `dirname .tmp/objdetect1.0.0` && $(TAR) objdetect1.0.0.tar objdetect1.0.0 && $(COMPRESS) objdetect1.0.0.tar) && $(MOVE) `dirname .tmp/objdetect1.0.0`/objdetect1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/objdetect1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/objdetect1.0.0/ && $(COPY_FILE) --parents ../objdetect/rs232.h .tmp/objdetect1.0.0/ && $(COPY_FILE) --parents ../objdetect/main.cpp ../objdetect/rs232.cpp .tmp/objdetect1.0.0/ && (cd `dirname .tmp/objdetect1.0.0` && $(TAR) objdetect1.0.0.tar objdetect1.0.0 && $(COMPRESS) objdetect1.0.0.tar) && $(MOVE) `dirname .tmp/objdetect1.0.0`/objdetect1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/objdetect1.0.0
 
 
 clean:compiler_clean 
@@ -298,8 +300,11 @@ compiler_clean:
 
 ####### Compile
 
-main.o: ../objdetect/main.cpp 
+main.o: ../objdetect/main.cpp ../objdetect/rs232.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../objdetect/main.cpp
+
+rs232.o: ../objdetect/rs232.cpp ../objdetect/rs232.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o rs232.o ../objdetect/rs232.cpp
 
 ####### Install
 

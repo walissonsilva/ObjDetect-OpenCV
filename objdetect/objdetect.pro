@@ -17,4 +17,8 @@ TEMPLATE = app
 INCLUDEPATH += /usr/local/include/opencv
 LIBS += `pkg-config opencv --libs`
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    rs232.cpp
+
+HEADERS += \
+    rs232.h
